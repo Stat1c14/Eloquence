@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Eloquence</title>
+  <link rel="shortcut icon" href="favicon.ico"  type="image/x-icon" />
+  
+  <!-- JQuery and Styles-->
+  <link href="stylesheets/bootstrap.css" rel="stylesheet">
+  <link href="stylesheets/style.css" rel="stylesheet">
+  <script src="//code.jquery.com/jquery-1.11.1.js"></script>
+
+  <!-- Redactor is here -->
+  <link rel="stylesheet" href="redactor/redactor.css" />
+  <script src="redactor/redactor.min.js"></script>
+
+  <script type="text/javascript">
+   $(document).ready(
+    function()
+    {
+     $('#redactor').redactor();
+   }
+   );
+ </script>
+
+</head>
+<body>
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#"><em>Eloquence</em></a>
+      </div>
+
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+        <ul class="nav navbar-nav">
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">My Compositions <span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="#">Action</a></li>
+              <li><a href="#">Another action</a></li>
+              <li><a href="#">Something else here</a></li>
+              <li class="divider"></li>
+              <li><a href="#">Separated link</a></li>
+              <li class="divider"></li>
+              <li><a href="#">One more separated link</a></li>
+            </ul>
+          </li>
+          <li><a href="#"><strong>+</strong> <span class="sr-only">(current)</span></a></li>
+        </ul>
+        <!--<form class="navbar-form navbar-left" role="search">
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Search">
+          </div>
+          <button type="submit" class="btn btn-default">Submit</button>
+        </form>-->
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="#" data-toggle="modal" data-target="#about">About </a></li>
+            <li><a href="#" data-toggle="modal" data-target="#myModal">Login </a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <textarea id="redactor" name="content">
+
+  </textarea>
+
+  <!-- Modals -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Authentication</h4>
+        </div>
+        <div class="modal-body">
+          <div class="jumbotron text-center">
+            <p>Login or Register with:</p>
+            <!--<a href="/auth/facebook" class="btn btn-primary"><span class="fa fa-facebook"></span> Facebook</a>
+            <a href="/auth/twitter" class="btn btn-info"><span class="fa fa-twitter"></span> Twitter</a>
+            <a href="/auth/google" class="btn btn-danger"><span class="fa fa-google-plus"></span> Google+</a>-->
+            <a href="/login" class="btn btn-default"><span class="fa fa-user"></span> Local Login</a>
+            <a href="/signup" class="btn btn-default"><span class="fa fa-user"></span> Local Signup</a>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal" id="about">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title">About</h4>
+          </div>
+          <form class="codeblock" action="">
+            <div class="modal-body">
+              <p>Welcome to Eloquence! Eloquence is a single page web application built for creative writing. You can login using a variety of social media sites, write and edit compositions and store them for later! It was built using Node.js, Express, and MongoDB, and is designed to be sleek, fast, and modern. It also uses a platform called Socket.io in order to ensure that Eloquence can save, open, and create compositions all without ever refreshing the page. It was developed by Chandler Freeman(<a href="//www.chandlerfreeman.com">chandlerfreeman.com</a>). Thanks for using Eloquence!</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+</body>
+
+<!-- Include Bootstrap JS and socket.io -->
+<script src="javascripts/bootstrap.min.js"></script>
+<script src="//cdn.socket.io/socket.io-1.2.0.js"></script>
+  <script>
+
+    // Create socket
+    var socket = io();
+
+    // Send message
+    $('form.msgform').submit(function(){
+      if ($('#m').val() != "") {
+        socket.emit('getComposition', $('#m').val());
+        $('#m').val('');
+      }
+      return false;
+    });
+
+    // Send message
+    $('form.msgform').submit(function(){
+      if ($('#m').val() != "") {
+        socket.emit('createComposition', $('#m').val());
+        $('#m').val('');
+      }
+      return false;
+    });
+
+    // Send message
+    $('form.msgform').submit(function(){
+      if ($('#m').val() != "") {
+        socket.emit('getCompositionsList', $('#m').val());
+        $('#m').val('');
+      }
+      return false;
+    });
+
+    // Recieve message
+    socket.on('compositionText', function(msg){
+
+      // Determine whether the text is marked as code
+      if (msg.indexOf("code: ") > -1) {
+        var newmsg = msg.replace('code: ', '');
+        $('#messages').append($('<pre>').text(newmsg));
+      }
+      else {
+        $('#messages').append($('<li>').text(msg));
+      }
+    });
+
+    // Recieve message
+    socket.on('compositionChanged', function(msg){
+
+      // Determine whether the text is marked as code
+      if (msg.indexOf("code: ") > -1) {
+        var newmsg = msg.replace('code: ', '');
+        $('#messages').append($('<pre>').text(newmsg));
+      }
+      else {
+        $('#messages').append($('<li>').text(msg));
+      }
+    });
+
+    // Recieve message
+    socket.on('compositionList', function(msg){
+
+      // Determine whether the text is marked as code
+      if (msg.indexOf("code: ") > -1) {
+        var newmsg = msg.replace('code: ', '');
+        $('#messages').append($('<pre>').text(newmsg));
+      }
+      else {
+        $('#messages').append($('<li>').text(msg));
+      }
+    });
+
+  </script>
+</html>
