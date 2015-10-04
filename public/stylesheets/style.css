@@ -4,6 +4,11 @@ body {
 	background-image: url('../images/vintage_speckles.png');
 }
 
+#compositiontitle {
+    padding-left: 10%;
+    padding-right: 10%;
+}
+
 #redactor {
 	margin: 0% 10% 0% 10%;
 	width: 80%;
