@@ -50,7 +50,7 @@
               <li><a href="#">One more separated link</a></li>
             </ul>
           </li>
-          <li><a href="#"><strong>+</strong> <span class="sr-only">(current)</span></a></li>
+          <li><a href="#" data-toggle="modal" data-target="#createComposition"><strong>+</strong> <span class="sr-only">(current)</span></a></li>
         </ul>
         <!--<form class="navbar-form navbar-left" role="search">
           <div class="form-group">
@@ -97,6 +97,30 @@
         </div>
       </div>
     </div>
+    <div class="modal" id="createComposition">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title">New Composition</h4>
+          </div>
+          <form class="codeblock" action="">
+            <div class="modal-body">
+              <div class="form-group">
+                <div id="compositiontitle" class="input-group">
+                  <span class="input-group-addon">Title</span>
+                  <input type="text" class="form-control">
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" data-dismiss="modal">Create</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
 </body>
 
 <!-- Include Bootstrap JS and socket.io -->
@@ -107,16 +131,7 @@
     // Create socket
     var socket = io();
 
-    // Send message
-    $('form.msgform').submit(function(){
-      if ($('#m').val() != "") {
-        socket.emit('getComposition', $('#m').val());
-        $('#m').val('');
-      }
-      return false;
-    });
-
-    // Send message
+    // Send composition creation request
     $('form.msgform').submit(function(){
       if ($('#m').val() != "") {
         socket.emit('createComposition', $('#m').val());
@@ -125,42 +140,16 @@
       return false;
     });
 
-    // Send message
+    // Send request for composition list
     $('form.msgform').submit(function(){
       if ($('#m').val() != "") {
-        socket.emit('getCompositionsList', $('#m').val());
+        socket.emit('createComposition', $('#m').val());
         $('#m').val('');
       }
       return false;
     });
 
-    // Recieve message
-    socket.on('compositionText', function(msg){
-
-      // Determine whether the text is marked as code
-      if (msg.indexOf("code: ") > -1) {
-        var newmsg = msg.replace('code: ', '');
-        $('#messages').append($('<pre>').text(newmsg));
-      }
-      else {
-        $('#messages').append($('<li>').text(msg));
-      }
-    });
-
-    // Recieve message
-    socket.on('compositionChanged', function(msg){
-
-      // Determine whether the text is marked as code
-      if (msg.indexOf("code: ") > -1) {
-        var newmsg = msg.replace('code: ', '');
-        $('#messages').append($('<pre>').text(newmsg));
-      }
-      else {
-        $('#messages').append($('<li>').text(msg));
-      }
-    });
-
-    // Recieve message
+    // Recieve composition list
     socket.on('compositionList', function(msg){
 
       // Determine whether the text is marked as code

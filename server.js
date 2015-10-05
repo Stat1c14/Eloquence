@@ -20,6 +20,20 @@ var io = require('socket.io')(http);
 var configDB = require('./config/database.js');
 
 io.on('connection', function(socket){
+  console.log("User connected with ID of " + socket.id);
+  socket.on('chat message', function(msg){
+  	// Pull list of compositions from database
+    //io.emit('chat message', msg);
+    io.to(socket.id).emit();
+  });
+  socket.on('chat message', function(msg){
+  	// Pull list of compositions from database
+    io.emit('chat message', msg);
+  });
+  socket.on('chat message', function(msg){
+  	// Pull list of compositions from database
+    io.emit('chat message', msg);
+  });
   socket.on('chat message', function(msg){
   	// Pull list of compositions from database
     io.emit('chat message', msg);
