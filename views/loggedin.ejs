@@ -39,7 +39,7 @@
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
         <ul class="nav navbar-nav">
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">My Compositions <span class="caret"></span></a>
+            <a href="#" id="compList" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">My Compositions <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
               <li><a href="#">Action</a></li>
               <li><a href="#">Another action</a></li>
@@ -104,18 +104,18 @@
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             <h4 class="modal-title">New Composition</h4>
           </div>
-          <form class="codeblock" action="">
+          <form class="createCompositionForm" action="">
             <div class="modal-body">
               <div class="form-group">
                 <div id="compositiontitle" class="input-group">
                   <span class="input-group-addon">Title</span>
-                  <input type="text" class="form-control">
+                  <input type="text" id="newTitle" class="form-control">
                 </div>
               </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" data-dismiss="modal">Create</button>
+              <button type="submit" class="btn btn-primary">Create</button>
             </div>
           </form>
         </div>
@@ -129,14 +129,24 @@
   <script>
 
     // Create socket
-    var socket = io();
+    var socket = io('http://localhost:8080');
 
     // Send composition creation request
-    $('form.msgform').submit(function(){
-      if ($('#m').val() != "") {
-        socket.emit('createComposition', $('#m').val());
-        $('#m').val('');
+    $('form.createCompositionForm').submit(function() {
+      if ($('#newTitle').val() != '') {
+        socket.emit('createComposition', $('#newTitle').val());
+        $('#newTitle').val('');
+        $("#createComposition").modal("hide");
       }
+      else {
+        alert('You must enter a title');
+      }
+      return false;
+    });
+
+    // Send request for composition list
+    $('#compList').click(function() {
+      socket.emit('getCompositionList');
       return false;
     });
 
