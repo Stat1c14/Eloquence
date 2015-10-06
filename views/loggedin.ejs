@@ -41,13 +41,11 @@
           <li class="dropdown">
             <a href="#" id="compList" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">My Compositions <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
-              <li><a href="#">Action</a></li>
-              <li><a href="#">Another action</a></li>
-              <li><a href="#">Something else here</a></li>
-              <li class="divider"></li>
-              <li><a href="#">Separated link</a></li>
-              <li class="divider"></li>
-              <li><a href="#">One more separated link</a></li>
+              <li><a id="1443234" class="comp" href="#">Comp1</a></li>
+              <li><a id="1233" class="comp" href="#">New Title</a></li>
+              <li><a id="43222" class="comp" href="#">Ember7</a></li>
+              <li><a id="155332" class="comp" href="#">JS is Awesome</a></li>
+              <!--<li class="divider"></li>-->
             </ul>
           </li>
           <li><a href="#" data-toggle="modal" data-target="#createComposition"><strong>+</strong> <span class="sr-only">(current)</span></a></li>
@@ -69,14 +67,14 @@
   <div class="form-group">
     <div id="compositiontitle" class="input-group">
     <span class="input-group-addon">Title</span>
-      <input type="text" class="form-control">
+      <input id="renameField" type="text" class="form-control">
       <span class="input-group-btn">
-        <button class="btn btn-default" type="button">Save</button>
+        <button id="saveTitle" class="btn btn-default" type="button">Save</button>
       </span>
     </div>
   </div>
 
-  <textarea id="redactor" name="content">
+  <textarea id="redactor" class="14255" name="content">
 
   </textarea>
   <div class="modal" id="about">
@@ -131,6 +129,9 @@
     // Create socket
     var socket = io('http://localhost:8080');
 
+    var cached_text = '';
+    var current_text = '';
+
     // Send composition creation request
     $('form.createCompositionForm').submit(function() {
       if ($('#newTitle').val() != '') {
@@ -145,21 +146,65 @@
     });
 
     // Send request for composition list
-    $('#compList').click(function() {
-      socket.emit('getCompositionList');
-      return false;
-    });
+    //$('#compList').click(function() {
+      //socket.emit('getCompositionList');
+      //return false;
+    //});
 
-    // Send request for composition list
-    $('form.msgform').submit(function(){
-      if ($('#m').val() != "") {
-        socket.emit('createComposition', $('#m').val());
-        $('#m').val('');
+    // Send request for rename
+    $('#saveTitle').click(function() {
+      if ($('#renameField').val() != '') {
+        socket.emit('rename', $('#renameField').val());
       }
+      else {
+        alert('You must enter a title');
+      } 
       return false;
     });
 
-    // Recieve composition list
+    // Send request to change current composition
+    $('a.comp').click(function() {
+      socket.emit('changeCurrentComp', event.target.id);
+      return true;
+    });
+
+    // Autosave
+    setInterval(autosave, 5000);
+    function autosave() {
+      current_text = $('#redactor').val();
+      if (cached_text != current_text) {
+        socket.emit('autosave', current_text, $('#redactor').attr('class'));
+        cached_text = current_text;
+      }
+    }
+
+    // Recieve updated composition list
+    socket.on('compositionList', function(msg){
+
+      // Determine whether the text is marked as code
+      if (msg.indexOf("code: ") > -1) {
+        var newmsg = msg.replace('code: ', '');
+        $('#messages').append($('<pre>').text(newmsg));
+      }
+      else {
+        $('#messages').append($('<li>').text(msg));
+      }
+    });
+
+    // Recieve composition title
+    socket.on('compositionList', function(msg){
+
+      // Determine whether the text is marked as code
+      if (msg.indexOf("code: ") > -1) {
+        var newmsg = msg.replace('code: ', '');
+        $('#messages').append($('<pre>').text(newmsg));
+      }
+      else {
+        $('#messages').append($('<li>').text(msg));
+      }
+    });
+
+    // Recieve composition content
     socket.on('compositionList', function(msg){
 
       // Determine whether the text is marked as code

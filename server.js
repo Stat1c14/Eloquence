@@ -23,19 +23,20 @@ io.on('connection', function(socket){
   console.log("User connected with ID of " + socket.id);
 
   socket.on('createComposition', function(title){
-  	console.log("User with ID of " + socket.id + " added a composition titled " + title);
+  	console.log("User with ID of " + socket.id + " created a composition titled " + title);
     //io.to(socket.id).emit();
   });
   socket.on('getCompositionList', function(){
   	console.log("User with ID of " + socket.id + " requested their composition list");
   });
-  socket.on('chat message', function(msg){
-  	// Pull list of compositions from database
-    io.emit('chat message', msg);
+  socket.on('rename', function(title){
+  	console.log("User with ID of " + socket.id + " requested to rename their composition to '" + title + "'");
   });
-  socket.on('chat message', function(msg){
-  	// Pull list of compositions from database
-    io.emit('chat message', msg);
+  socket.on('changeCurrentComp', function(compID){
+  	console.log("User with ID of " + socket.id + " requested to change their current composition to '" + compID + "'");
+  });
+  socket.on('autosave', function(text, compID){
+  	console.log("User with ID of " + socket.id + " autosaved their current composition with ID '" + compID + "'");
   });
 });
 // configuration ===============================================================
