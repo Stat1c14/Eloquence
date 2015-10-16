@@ -55,12 +55,12 @@ require('./app/routes.js')(app, passport); // load our routes and pass in our ap
 // API Code ====================================================================
 
 /*
-      ROUTE                   HTTP VERB       DES
-      /api/compositions       GET             Gets a list of a user's compositions
-      /api/compositions       POST            Creates a composition
-      /api/compositions/:id   GET             Get composition with id
-      /api/compositions/:id   PUT             Update composition with id
-      /api/compositions/:id   DELETE          Delete composition with id
+      ROUTE                     HTTP VERB       DES
+      /api/compositions         GET             Gets a list of a user's compositions
+      /api/compositions         POST            Creates a composition
+      /api/compositions/:id     GET             Get composition with id
+      /api/compositions/:id     PUT             Update composition with id
+      /api/compositions/:id     DELETE          Delete composition with id
 */
 
 var Composition = require('./app/models/composition');
@@ -70,6 +70,14 @@ app.get('/api/compositions', function(req, res) {
       if (err)
         res.send(err);
       res.json(compositions);
+    });
+});
+
+app.get('/api/compositions/author', function(req, res) {
+    Composition.findOne({'owner_id': req.user.id, 'title': 'Author'}, function(err, author) { 
+      if (err)
+        res.send(err);
+      res.json(author);
     });
 });
 

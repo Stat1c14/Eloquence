@@ -40,11 +40,7 @@
         <ul class="nav navbar-nav">
           <li class="dropdown">
             <a href="#" id="compList" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">My Compositions <span class="caret"></span></a>
-            <ul class="dropdown-menu" role="menu">
-              <li><a id="1443234" class="comp" href="#">Comp1</a></li>
-              <li><a id="1233" class="comp" href="#">New Title</a></li>
-              <li><a id="43222" class="comp" href="#">Ember7</a></li>
-              <li><a id="155332" class="comp" href="#">JS is Awesome</a></li>
+            <ul id="compListDropdown" class="dropdown-menu" role="menu">
               <!--<li class="divider"></li>-->
             </ul>
           </li>
@@ -69,7 +65,7 @@
     <span class="input-group-addon">Title</span>
       <input id="renameField" type="text" class="form-control">
       <span class="input-group-btn">
-        <button id="deleteComposition" class="btn btn-danger" type="button">Delete</button>
+        <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#deleteComposition">Delete</button>
       </span>
     </div>
   </div>
@@ -119,6 +115,29 @@
         </div>
       </div>
     </div>
+    <div class="modal" id="deleteComposition">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title">Delete Composition</h4>
+          </div>
+          <form class="deleteCompositionForm" action="">
+            <div class="modal-body">
+              <div class="form-group">
+                <div id="compositiontitle" class="input-group">
+                  <h4>Are you sure you want to delete this composition?</h4>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-danger">Delete</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
 </body>
 
 <!-- Include Bootstrap JS and socket.io -->
@@ -130,15 +149,41 @@
     var cached_title = '';
     var current_title = '';
 
-    var currentComposition = 0;
+    var currentComposition = '';
+
+    // Hide the inputs on page load
+    $(document).ready(function(){
+      $('#compositiontitle').hide();
+      $('.redactor_box').hide();
+    });
+
+    // Updates the current composition
+    function updateCurrentComposition(newCurrentComposition) {
+      currentComposition = newCurrentComposition;
+      if (currentComposition) {
+        $('#compositiontitle').show();
+        $('.redactor_box').show();
+      }
+      else {
+        $('#compositiontitle').hide();
+        $('.redactor_box').hide();
+      }
+
+    }
 
     // Gets a list of a user's compositions
     $('#compList').click(function() {
+      $('#compListDropdown').empty();
       $.ajax({
         url: '/api/compositions/',
         type: 'GET',
         success: function(compositions) {
-           // TODO: For loop through compositions and insert them into DOM
+           for (i = 0; i < compositions.length; i++) {
+            if ($("#" + compositions[i]._id).length > 0) {
+            }
+            else
+              $('#compListDropdown').append("<li><a id='" + compositions[i]._id + "' class=\"selectComp\" href='#'>" + compositions[i].title + "</a></li>");
+           }
         }
       });
       return true;
@@ -163,13 +208,14 @@
     });
 
     // Get composition with id
-    $('a.comp').click(function() {
+    $('#compListDropdown').on('click', 'a.selectComp', function() {
       $.ajax({
         url: '/api/compositions/' + event.target.id,
         type: 'GET',
         success: function(composition) {
-           // TODO: Load DOM elements with new composition
-           currentComposition = event.target.id;
+          $('#renameField').val(composition.title);
+          $('#redactor').prev().empty().append(composition.content);
+          updateCurrentComposition(composition._id);
         }
       });
       return true;
@@ -178,25 +224,37 @@
     // Autosave / Update composition with id
     setInterval(autosave, 5000);
     function autosave() {
-      current_text = $('#redactor').val();
-      current_title = $('#renameField').val()
+      if ($('#renameField').val() == '') {
 
-      if ($('#renameField').val() != '') {
-        alert('You must enter a title');
       }
-      else if (cached_text != current_text || cached_title != current_title) {
-        $.ajax({
-        url: '/api/compositions/' + currentComposition,
-        type: 'PUT',
-        data: 'title=' + current_title + '&content=' + current_text,
-        success: function() {}
-        });
-        cached_text = current_text;
-        cached_title = current_title;
+      else {
+        current_title = $('#renameField').val();
+        current_text = $('#redactor').prev().html();
+
+        if (cached_text != current_text || cached_title != current_title) {
+          $.ajax({
+            url: '/api/compositions/' + currentComposition,
+            type: 'PUT',
+            data: 'title=' + current_title + '&content=' + current_text,
+            success: function() {}
+          });
+          cached_text = current_text;
+          cached_title = current_title;
+        }
       }
     }
 
-    // TODO: Delete composition with id
+    // Delete composition with id
+    $('form.deleteCompositionForm').submit(function() {
+      $.ajax({
+        url: '/api/compositions/' + currentComposition,
+        type: 'DELETE',
+        success: function() {}
+      });
+        $("#deleteComposition").modal("hide");
+        updateCurrentComposition('');
+      return false;
+    });
 
   </script>
 </html>
