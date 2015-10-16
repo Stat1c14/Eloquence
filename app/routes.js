@@ -2,7 +2,7 @@ module.exports = function(app, passport) {
 
 // normal routes ===============================================================
 
-    // show the home page (will also have our login links)
+    // Display home page
     app.get('/', function(req, res) {
         if (req.user) {
             res.render('loggedin.ejs');
@@ -98,10 +98,10 @@ module.exports = function(app, passport) {
 // =============================================================================
 
     // locally --------------------------------
-        app.get('/connect/local', function(req, res) {
-            res.render('connect-local.ejs', { message: req.flash('loginMessage') });
-        });
-        app.post('/connect/local', passport.authenticate('local-signup', {
+    app.get('/connect/local', function(req, res) {
+        res.render('connect-local.ejs', { message: req.flash('loginMessage') });
+    });
+    app.post('/connect/local', passport.authenticate('local-signup', {
             successRedirect : '/', // redirect to the secure profile section
             failureRedirect : '/connect/local', // redirect back to the signup page if there is an error
             failureFlash : true // allow flash messages
@@ -191,7 +191,7 @@ module.exports = function(app, passport) {
 
 };
 
-// route middleware to ensure user is logged in
+// Check to see if user is authenticated
 function isLoggedIn(req, res, next) {
     if (req.isAuthenticated())
         return next();

@@ -9,7 +9,7 @@
   <link href="stylesheets/style.css" rel="stylesheet">
   <script src="//code.jquery.com/jquery-1.11.1.js"></script>
 
-  <!-- Redactor is here -->
+  <!-- Redactor -->
   <link rel="stylesheet" href="redactor/redactor.css" />
   <script src="redactor/redactor.min.js"></script>
 
@@ -21,9 +21,10 @@
    }
    );
  </script>
-
 </head>
 <body>
+
+  <!-- Nav -->
   <nav class="navbar navbar-inverse">
     <div class="container-fluid">
       <div class="navbar-header">
@@ -50,6 +51,7 @@
     </div>
   </nav>
 
+  <!-- Redactor -->
   <textarea id="redactor" name="content">
   <h2 style="text-align: center;"><span style="color: #f2c314;"><b>Welcome to<i> Eloquence!&nbsp;</i></b></span></h2><p><span style="color: #f2c314;"><b><i><br></i></b></span></p><pre style="text-align: center;">Eloquence is a single page web application built for creative writing.</pre><blockquote style="text-align: center;"><p><span style="font-style: normal;">You can login using a variety of social media sites, write and edit compositions and store them for later! It was built using Node.js, Express, and MongoDB, and is designed to be sleek, fast, and modern.&nbsp;</span></p><p><span style="line-height: 1.45em; background-color: initial;">It also uses a platform called Socket.io in order to ensure that </span><i style="line-height: 1.45em; background-color: initial;">Eloquence</i><span style="line-height: 1.45em; background-color: initial;"> can save, open, and create compositions all without ever refreshing the page. It was developed by Chandler Freeman(<a href="www.chandlerfreeman.com">chandlerfreeman.com</a>). Thanks for using </span><i style="line-height: 1.45em; background-color: initial;">Eloquence</i><span style="line-height: 1.45em; background-color: initial;">!</span></p></blockquote>
   </textarea>
@@ -78,24 +80,6 @@
       </div>
     </div>
   </div>
-  <div class="modal" id="about">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h4 class="modal-title">About</h4>
-          </div>
-          <form class="codeblock" action="">
-            <div class="modal-body">
-              <p>Welcome to Eloquence! Eloquence is a single page web application built for creative writing. You can login using a variety of social media sites, write and edit compositions and store them for later! It was built using Node.js, Express, and MongoDB, and is designed to be sleek, fast, and modern. It also uses a platform called Socket.io in order to ensure that Eloquence can save, open, and create compositions all without ever refreshing the page. It was developed by Chandler Freeman(<a href="//www.chandlerfreeman.com">chandlerfreeman.com</a>). Thanks for using Eloquence!</p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
 </body>
 
 <!-- Include Bootstrap JS and socket.io -->

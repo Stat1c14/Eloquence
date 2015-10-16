@@ -1,27 +1,36 @@
-# Easy Node Authentication
+# Eloquence
 
-Code for the entire scotch.io tutorial series: Complete Guide to Node Authentication
+## Description
 
-We will be using Passport to authenticate users locally, with Facebook, Twitter, and Google.
+Eloquence is a single page web application built for creative writing. It supports logging in using a variety of social media sites as well as local login. Eloquence allows you to write, edit, and format compositions and then store them for later! It was built using Node.js, Express, and MongoDB, and is designed to be sleek, fast, and modern.
 
-#### Upgraded To Express 4.0
-This tutorial has been upgraded to use ExpressJS 4.0. See [the commit](https://github.com/scotch-io/easy-node-authentication/commit/020dea057d5a0664caaeb041b18978237528f9a3) for specific changes.
+## Install
 
-## Instructions
+Install is same as any node.js install. After installing Node, just run
+```
+npm install
+```
+to install Eloquence and fetch any necessary modules.
 
-If you would like to download the code and try it for yourself:
+Be sure to create a database.js file containing the link to your MongoDB server
 
-1. Clone the repo: `git clone git@github.com:scotch-io/easy-node-authentication`
-2. Install packages: `npm install`
-3. Change out the database configuration in config/database.js
-4. Change out auth keys in config/auth.js
-5. Launch: `node server.js`
-6. Visit in your browser at: `http://localhost:8080`
+```
+module.exports = {
+    'url' : ''
+};
+```
 
-## The Tutorials
+Also, you can enable social login by modifying the auth.js file, if you wish.
 
-- [Getting Started and Local Authentication](http://scotch.io/tutorials/javascript/easy-node-authentication-setup-and-local)
-- [Facebook](http://scotch.io/tutorials/javascript/easy-node-authentication-facebook)
-- [Twitter](http://scotch.io/tutorials/javascript/easy-node-authentication-twitter)
-- [Google](http://scotch.io/tutorials/javascript/easy-node-authentication-google)
-- [Linking All Accounts Together](http://scotch.io/tutorials/javascript/easy-node-authentication-linking-all-accounts-together)
+## API
+
+      ROUTE                     HTTP VERB       DES
+      /api/compositions         GET             Gets a list of a user's compositions
+      /api/compositions         POST            Creates a composition
+      /api/compositions/:id     GET             Get composition with id
+      /api/compositions/:id     PUT             Update composition with id
+      /api/compositions/:id     DELETE          Delete composition with id
+
+## Author
+
+Written by Chandler Freeman (http://www.chandlerfreeman.com)

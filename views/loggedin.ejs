@@ -9,7 +9,7 @@
   <link href="stylesheets/style.css" rel="stylesheet">
   <script src="//code.jquery.com/jquery-1.11.1.js"></script>
 
-  <!-- Redactor is here -->
+  <!-- Redactor -->
   <link rel="stylesheet" href="redactor/redactor.css" />
   <script src="redactor/redactor.min.js"></script>
 
@@ -21,9 +21,10 @@
    }
    );
  </script>
-
 </head>
 <body>
+
+  <!-- Nav -->
   <nav class="navbar navbar-inverse">
     <div class="container-fluid">
       <div class="navbar-header">
@@ -46,12 +47,6 @@
           </li>
           <li><a href="#" data-toggle="modal" data-target="#createComposition"><strong>+</strong> <span class="sr-only">(current)</span></a></li>
         </ul>
-        <!--<form class="navbar-form navbar-left" role="search">
-          <div class="form-group">
-            <input type="text" class="form-control" placeholder="Search">
-          </div>
-          <button type="submit" class="btn btn-default">Submit</button>
-        </form>-->
         <ul class="nav navbar-nav navbar-right">
           <li><a href="#" data-toggle="modal" data-target="#about">About </a></li>
           <li><a href="/profile">Profile </a></li>
@@ -60,9 +55,10 @@
     </div>
   </nav>
 
+  <!-- Title bar -->
   <div class="form-group">
     <div id="compositiontitle" class="input-group">
-    <span class="input-group-addon">Title</span>
+      <span class="input-group-addon">Title</span>
       <input id="renameField" type="text" class="form-control">
       <span class="input-group-btn">
         <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#deleteComposition">Delete</button>
@@ -70,86 +66,91 @@
     </div>
   </div>
 
+  <!-- Redactor -->
   <textarea id="redactor" class="14255" name="content">
 
   </textarea>
+
+  <!-- Modals -->
   <div class="modal" id="about">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h4 class="modal-title">About</h4>
-          </div>
-          <form class="codeblock" action="">
-            <div class="modal-body">
-              <p>Welcome to Eloquence! Eloquence is a single page web application built for creative writing. You can login using a variety of social media sites, write and edit compositions and store them for later! It was built using Node.js, Express, and MongoDB, and is designed to be sleek, fast, and modern. It also uses a platform called Socket.io in order to ensure that Eloquence can save, open, and create compositions all without ever refreshing the page. It was developed by Chandler Freeman(<a href="//www.chandlerfreeman.com">chandlerfreeman.com</a>). Thanks for using Eloquence!</p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-          </form>
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4 class="modal-title">About</h4>
         </div>
+        <form class="codeblock" action="">
+          <div class="modal-body">
+            <h6>Welcome to Eloquence! Eloquence is a single page web application built for creative writing. It supports logging in using a variety of social media sites as well as local login. Eloquence allows you to write, edit, and format compositions and then store them for later! It was built using Node.js, Express, and MongoDB, and is designed to be sleek, fast, and modern. It was developed by Chandler Freeman(<a href="//www.chandlerfreeman.com">chandlerfreeman.com</a>). Thanks for using Eloquence!</h6>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </form>
       </div>
     </div>
-    <div class="modal" id="createComposition">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h4 class="modal-title">New Composition</h4>
-          </div>
-          <form class="createCompositionForm" action="">
-            <div class="modal-body">
-              <div class="form-group">
-                <div id="compositiontitle" class="input-group">
-                  <span class="input-group-addon">Title</span>
-                  <input type="text" id="newTitle" class="form-control">
-                </div>
+  </div>
+  <div class="modal" id="createComposition">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4 class="modal-title">New Composition</h4>
+        </div>
+        <form class="createCompositionForm" action="">
+          <div class="modal-body">
+            <div class="form-group">
+              <div id="compositiontitle" class="input-group">
+                <span class="input-group-addon">Title</span>
+                <input type="text" id="newTitle" class="form-control">
               </div>
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary">Create</button>
-            </div>
-          </form>
-        </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Create</button>
+          </div>
+        </form>
       </div>
     </div>
-    <div class="modal" id="deleteComposition">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h4 class="modal-title">Delete Composition</h4>
-          </div>
-          <form class="deleteCompositionForm" action="">
-            <div class="modal-body">
-              <div class="form-group">
-                <div id="compositiontitle" class="input-group">
-                  <h4>Are you sure you want to delete this composition?</h4>
-                </div>
+  </div>
+  <div class="modal" id="deleteComposition">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4 class="modal-title">Delete Composition</h4>
+        </div>
+        <form class="deleteCompositionForm" action="">
+          <div class="modal-body">
+            <div class="form-group">
+              <div id="compositiontitle" class="input-group">
+                <h4>Are you sure you want to delete this composition?</h4>
               </div>
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-danger">Delete</button>
-            </div>
-          </form>
-        </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-danger">Delete</button>
+          </div>
+        </form>
       </div>
     </div>
+  </div>
 </body>
 
-<!-- Include Bootstrap JS and socket.io -->
+<!-- Include Bootstrap JS -->
 <script src="javascripts/bootstrap.min.js"></script>
-<script src="//cdn.socket.io/socket.io-1.2.0.js"></script>
-  <script>
-    var cached_text = '';
-    var current_text = '';
-    var cached_title = '';
-    var current_title = '';
+<script>
 
-    var currentComposition = '';
+  // Used to eliminate redundant autosaves
+  var cached_text = '';
+  var cached_title = '';
+  var current_text = '';
+  var current_title = '';
+
+  // ID of the current composition
+  var currentComposition = '';
 
     // Hide the inputs on page load
     $(document).ready(function(){
@@ -160,6 +161,8 @@
     // Updates the current composition
     function updateCurrentComposition(newCurrentComposition) {
       currentComposition = newCurrentComposition;
+
+      // Only show inputs if composition is loaded
       if (currentComposition) {
         $('#compositiontitle').show();
         $('.redactor_box').show();
@@ -178,14 +181,14 @@
         url: '/api/compositions/',
         type: 'GET',
         success: function(compositions) {
-           for (i = 0; i < compositions.length; i++) {
-            if ($("#" + compositions[i]._id).length > 0) {
-            }
-            else
-              $('#compListDropdown').append("<li><a id='" + compositions[i]._id + "' class=\"selectComp\" href='#'>" + compositions[i].title + "</a></li>");
-           }
+         for (i = 0; i < compositions.length; i++) {
+          if ($("#" + compositions[i]._id).length > 0) {
+          }
+          else
+            $('#compListDropdown').append("<li><a id='" + compositions[i]._id + "' class=\"selectComp\" href='#'>" + compositions[i].title + "</a></li>");
         }
-      });
+      }
+    });
       return true;
     });
 
@@ -193,10 +196,10 @@
     $('form.createCompositionForm').submit(function() {
       if ($('#newTitle').val() != '') {
         $.ajax({
-        url: '/api/compositions/',
-        type: 'POST',
-        data: 'title=' + $('#newTitle').val(),
-        success: function() {}
+          url: '/api/compositions/',
+          type: 'POST',
+          data: 'title=' + $('#newTitle').val(),
+          success: function() {}
         });
         $('#newTitle').val('');
         $("#createComposition").modal("hide");
@@ -251,8 +254,8 @@
         type: 'DELETE',
         success: function() {}
       });
-        $("#deleteComposition").modal("hide");
-        updateCurrentComposition('');
+      $("#deleteComposition").modal("hide");
+      updateCurrentComposition('');
       return false;
     });
 
