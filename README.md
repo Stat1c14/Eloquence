@@ -12,7 +12,7 @@ npm install
 ```
 to install Eloquence and fetch any necessary modules.
 
-Be sure to create a database.js file containing the link to your MongoDB server
+Be sure to create a database.js file in the config folder containing the link to your MongoDB server
 
 ```
 module.exports = {
@@ -20,7 +20,7 @@ module.exports = {
 };
 ```
 
-Also, you can enable social login by modifying the auth.js file, if you wish.
+You may change the port in the server.js file as well. Also, you can enable social login by modifying the auth.js file, if you wish.
 
 ## API
 
